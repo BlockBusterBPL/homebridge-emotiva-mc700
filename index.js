@@ -1,4 +1,4 @@
-// Accessory for controlling Marantz AVR via HomeKit
+// Accessory for controlling an Emotiva MC-700 via HomeKit
 
 var inherits = require('util').inherits;
 var SerialPort = require("serialport");
@@ -17,10 +17,10 @@ module.exports = function(homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
     
-    homebridge.registerAccessory("homebridge-marantz-rs232", "Marantz-RS232", MarantzAVR);
+    homebridge.registerAccessory("homebridge-emotiva-mc700", "Emotiva-MC700", EmotivaMC700);
     
     
-    function MarantzAVR(log, config) {
+    function EmotivaMC700(log, config) {
         // configuration
         this.name = config['name'];
         this.path = config['path'];
@@ -57,21 +57,21 @@ module.exports = function(homebridge) {
     }
     
     // Custom Characteristics and service...
-    MarantzAVR.AudioVolume = function() {
+    EmotivaMC700.AudioVolume = function() {
         Characteristic.call(this, 'Volume', '00001001-0000-1000-8000-135D67EC4377');
         this.log("Maximum Volume", maxVolume);
         this.setProps({
                       format: Characteristic.Formats.FLOAT,
                       maxValue: maxVolume,
                       minValue: minVolume,
-                      minStep: 1.0,
+                      minStep: 0.5,
                       perms: [Characteristic.Perms.READ, Characteristic.Perms.WRITE, Characteristic.Perms.NOTIFY]
                       });
         this.value = this.getDefaultValue();
     };
-    inherits(MarantzAVR.AudioVolume, Characteristic);
+    inherits(EmotivaMC700.AudioVolume, Characteristic);
     
-    MarantzAVR.Muting = function() {
+    EmotivaMC700.Muting = function() {
         Characteristic.call(this, 'Mute', '00001002-0000-1000-8000-135D67EC4377');
         this.setProps({
                       format: Characteristic.Formats.BOOL,
@@ -79,16 +79,16 @@ module.exports = function(homebridge) {
                       });
         this.value = this.getDefaultValue();
     };
-    inherits(MarantzAVR.Muting, Characteristic);
+    inherits(EmotivaMC700.Muting, Characteristic);
     
-    MarantzAVR.AudioDeviceService = function(displayName, subtype) {
+    EmotivaMC700.AudioDeviceService = function(displayName, subtype) {
         Service.call(this, displayName, '00000001-0000-1000-8000-135D67EC4377', subtype);
         this.addCharacteristic(MarantzAVR.AudioVolume);
         this.addCharacteristic(MarantzAVR.Muting);
     };
-    inherits(MarantzAVR.AudioDeviceService, Service);
+    inherits(EmotivaMC700.AudioDeviceService, Service);
     
-    MarantzAVR.prototype = {
+    EmotivaMC700.prototype = {
         
     send: function(cmd, callback) {
         this.sendCommand(cmd, callback);
@@ -491,8 +491,8 @@ module.exports = function(homebridge) {
         var informationService = new Service.AccessoryInformation();
         informationService
         .setCharacteristic(Characteristic.Name, this.name)
-        .setCharacteristic(Characteristic.Manufacturer, "Marantz")
-        .setCharacteristic(Characteristic.Model, "SR5004")
+        .setCharacteristic(Characteristic.Manufacturer, "Emotiva")
+        .setCharacteristic(Characteristic.Model, "MC-700")
         .setCharacteristic(Characteristic.SerialNumber, "1234567890");
         
         var switchService = new Service.Switch("Power State", "power_on");
@@ -572,7 +572,7 @@ function makeHVolumeControlCharacteristic(homebridge) {
     UUID = homebridge.hap.uuid;
     
     VolumeUpCharacteristic = function () {
-        var serviceUUID = UUID.generate('MarantzTypes:VolumeControl:VolumeUp');
+        var serviceUUID = UUID.generate('EmotivaMC700Types:VolumeControl:VolumeUp');
         Characteristic.call(this, 'Volume Up', serviceUUID);
         this.setProps({
                       format: Characteristic.Formats.BOOL,
@@ -585,7 +585,7 @@ function makeHVolumeControlCharacteristic(homebridge) {
     inherits(VolumeUpCharacteristic, Characteristic);
     
     VolumeDownCharacteristic = function () {
-        var serviceUUID = UUID.generate('MarantzTypes:VolumeControl:VolumeDown');
+        var serviceUUID = UUID.generate('EmotivaMC700Types:VolumeControl:VolumeDown');
         Characteristic.call(this, 'Volume Down', serviceUUID);
         this.setProps({
                       format: Characteristic.Formats.BOOL,
@@ -598,7 +598,7 @@ function makeHVolumeControlCharacteristic(homebridge) {
     inherits(VolumeDownCharacteristic, Characteristic);
     
     VolumeUpFastCharacteristic = function () {
-        var serviceUUID = UUID.generate('MarantzTypes:VolumeControl:VolumeUpFast');
+        var serviceUUID = UUID.generate('EmotivaMC700Types:VolumeControl:VolumeUpFast');
         Characteristic.call(this, 'Volume Up Fast', serviceUUID);
         this.setProps({
                       format: Characteristic.Formats.BOOL,
@@ -611,7 +611,7 @@ function makeHVolumeControlCharacteristic(homebridge) {
     inherits(VolumeUpFastCharacteristic, Characteristic);
     
     VolumeDownFastCharacteristic = function () {
-        var serviceUUID = UUID.generate('MarantzTypes:VolumeControl:VolumeDownFast');
+        var serviceUUID = UUID.generate('EmotivaMC700Types:VolumeControl:VolumeDownFast');
         Characteristic.call(this, 'Volume Down Fast', serviceUUID);
         this.setProps({
                       format: Characteristic.Formats.BOOL,
