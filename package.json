@@ -1,5 +1,5 @@
 {
-  "name": "homebridge-marantz-rs232",
+  "name": "homebridge-emotiva-mc700",
   "version": "0.1.0",
   "description": "Marantz rs232 receiver plugin for homebridge: https://github.com/nfarina/homebridge",
   "license": "ISC",
@@ -8,7 +8,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/rooi/homebridge-marantz-rs232.git"
+    "url": "https://github.com/blockbusterbpl/homebridge-emotiva-mc700.git"
   },
   "engines": {
     "node": ">=10.15.3",
