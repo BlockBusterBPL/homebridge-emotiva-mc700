@@ -1,6 +1,6 @@
 # homebridge-emotiva-mc700
 Emotiva MC-700 receiver plugin for homebridge: https://github.com/nfarina/homebridge
-This plugin communicates with Emotiva receiver using rs-232 An usb to serial rs232 converter from [FTDI](https://www.ftdichip.com/Products/Cables/USBRS232.htm) is recommended. Cheaper converters may not function correctly.
+This plugin communicates with Emotiva receiver using rs-232 An usb to serial rs232 converter from [FTDI](https://www.ftdichip.com/Products/Cables/USBRS232.htm) is recommended. Cheaper converters may not function correctly.  
 The code in this repository has been forked from [rooi/homebridge-marantz-rs232](https://github.com/rooi/homebridge-marantz-rs232)
 
 # Installation
