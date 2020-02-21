@@ -165,11 +165,11 @@ module.exports = function(homebridge) {
         var cmd;
         
         if (powerOn) {
-            cmd = "@PWR:2\r";
+            cmd = "@112\r";
             this.log("Set", this.name, "to on");
         }
         else {
-            cmd = "@PWR:1\r";
+            cmd = "@113\r";
             this.log("Set", this.name, "to off");
         }
 
@@ -205,11 +205,11 @@ module.exports = function(homebridge) {
         var cmd;
         
         if (muteOn) {
-            cmd = "@AMT:2\r";
+            cmd = "@11Q\r";
             this.log(this.name, "muted");
         }
         else {
-            cmd = "@AMT:1\r";
+            cmd = "@11R\r";
             this.log(this.name, "unmuted");
         }
         
@@ -274,8 +274,7 @@ module.exports = function(homebridge) {
         var db = this.percentageToDb(value);
         if(this.volume != value) {
             this.volume = value;
-            var cmd = "@VOL:0";
-            if(db > 0) cmd = cmd + "+";
+            var cmd = "11P";
             cmd = cmd + parseInt(db*10.0);
             cmd = cmd + "\r";
             
@@ -314,7 +313,7 @@ module.exports = function(homebridge) {
         
     setVolumeUpState: function(value, callback) {
         
-        var cmd = "@VOL:1\r";
+        var cmd = "@11S\r";
         
         var signedValue = value;
         this.setVolumeState(cmd, signedValue, callback);
@@ -325,7 +324,7 @@ module.exports = function(homebridge) {
         
     setVolumeDownState: function(value, callback) {
         
-        var cmd = "@VOL:2\r";
+        var cmd = "@11R\r";
         
         var signedValue = -1 * value;
         this.setVolumeState(cmd, signedValue, callback);
@@ -336,7 +335,7 @@ module.exports = function(homebridge) {
 
     setVolumeUpFastState: function(value, callback) {
         
-        var cmd = "@VOL:3\r";
+        var cmd = "@11S\r";
         
         var signedValue = value;
         this.setVolumeState(cmd, signedValue, callback);
@@ -347,7 +346,7 @@ module.exports = function(homebridge) {
         
     setVolumeDownFastState: function(value, callback) {
         
-        var cmd = "@VOL:4\r";
+        var cmd = "@11R\r";
         
         var signedValue = -1 * value;
         this.setVolumeState(cmd, signedValue, callback);
@@ -444,23 +443,21 @@ module.exports = function(homebridge) {
     },
         
     setSourcePort: function(port, callback) {
-        var cmd = "@SRC:";
+        var cmd = "@";
         
         if (port < 10) cmd = cmd + port + "\r";
-        else if(port == 10) cmd = cmd + 'A' + "\r";
-        else if(port == 11) cmd = cmd + 'B' + "\r";
-        else if(port == 12) cmd = cmd + 'C' + "\r";
-        else if(port == 13) cmd = cmd + 'D' + "\r";
-        else if(port == 14) cmd = cmd + 'E' + "\r";
-        else if(port == 15) cmd = cmd + 'F' + "\r";
-        else if(port == 16) cmd = cmd + 'G' + "\r";
-        else if(port == 17) cmd = cmd + 'H' + "\r";
-        else if(port == 18) cmd = cmd + 'I' + "\r";
-        else if(port == 19) cmd = cmd + 'J' + "\r";
-        else if(port == 20) cmd = cmd + 'K' + "\r";
-        else if(port == 21) cmd = cmd + 'L' + "\r";
-        else if(port == 22) cmd = cmd + 'M' + "\r";
-        else if(port == 23) cmd = cmd + 'N' + "\r";
+        else if(port == 10) cmd = cmd + '11B' + "\r";
+        else if(port == 11) cmd = cmd + '116' + "\r";
+        else if(port == 12) cmd = cmd + '115' + "\r";
+        else if(port == 13) cmd = cmd + '15A' + "\r";
+        else if(port == 14) cmd = cmd + '15B' + "\r";
+        else if(port == 15) cmd = cmd + '15C' + "\r";
+        else if(port == 16) cmd = cmd + '15D' + "\r";
+        else if(port == 17) cmd = cmd + '117' + "\r";
+        else if(port == 18) cmd = cmd + '15E' + "\r";
+        else if(port == 19) cmd = cmd + '15F' + "\r";
+        else if(port == 20) cmd = cmd + '15G' + "\r";
+        else if(port == 21) cmd = cmd + '15H' + "\r";
         else cmd = cmd + 0 + "\r";
         
         this.exec(cmd, function(response, error) {

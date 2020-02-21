@@ -19,8 +19,8 @@ Configuration sample:
         "accessory": "Emotiva-MC700",
         "name": "Receiver",
         "path": "/dev/cu.usbserial-FTH7QVHK",
-        "maxVolume": -20.0,
-        "minVolume": -79.0
+        "maxVolume": 800,
+        "minVolume": 000,
     }
 ]
 ```
